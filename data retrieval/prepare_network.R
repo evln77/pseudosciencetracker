@@ -1,3 +1,7 @@
+# load data
+authors_expanded <- read_csv("authors_expanded.csv")
+compendium_by_author <- read_csv("compendium_by_author.csv")
+
 # prepare data
 author_lists <- authors_expanded[,2:120]
 author_lists %>%
@@ -11,38 +15,38 @@ author_lists[6] <- gsub("[[:punct:]]","",author_lists$author6)
 author_lists[7] <- gsub("[[:punct:]]","",author_lists$author7)
 author_lists[8] <- gsub("[[:punct:]]","",author_lists$author8)
 author_lists[9] <- gsub("[[:punct:]]","",author_lists$author9)
-author_edges <- data.frame(to = "deleteme", from = "deleteme")
+edges <- data.frame(to = "deleteme", from = "deleteme")
 for (i in 1:nrow(author_lists)) {
   combn(author_lists[i,],2) %>%
   as.data.frame(.) %>%
   transpose(.) %>%
-  rbind(author_edges,.) -> author_edges
+  rbind(edges,.) -> edges
 }
-author_edges[is.na(author_edges)] <- "deleteme"
-author_edges <- filter(author_edges, to != "deleteme" & from != "deleteme")
-author_edges = data.frame(lapply(author_edges, as.character), stringsAsFactors=FALSE)
-author_edges <- data.frame(t(apply(author_edges, 1, sort)))
-author_edges %>%
+edges[is.na(edges)] <- "deleteme"
+edges <- filter(edges, to != "deleteme" & from != "deleteme")
+edges = data.frame(lapply(edges, as.character), stringsAsFactors=FALSE)
+edges <- data.frame(t(apply(edges, 1, sort)))
+edges %>%
   distinct(.keep_all = TRUE) ->
-  author_edges
+  edges
 
 #calculate edges
-for (i in 1:nrow(author_edges)) {
-  filter(author_pubs, author == author_edges[i,1] | author == author_edges[i,2]) %>%
+for (i in 1:nrow(edges)) {
+  filter(compendium_by_author, author == edges[i,1] | author == edges[i,2]) %>%
   group_by(title) %>%
   count() %>%
   filter(n > 1) %>%
-  nrow(.) -> author_edges[i,3]
+  nrow(.) -> edges[i,3]
 }
 
 # save
-colnames(author_edges) <- c("to", "from", "weight")
-author_edges <- filter(author_edges, weight > 0)
-write.csv(author_edges, "segm_edges.csv", row.names=FALSE)
+colnames(edges) <- c("to", "from", "weight")
+edges <- filter(edges, weight > 0)
+write.csv(edges, "edges.csv", row.names=FALSE)
 
 # prepare nodes
-to <- as.data.frame(author_edges$to)
-from <- as.data.frame(author_edges$from)
+to <- as.data.frame(edges$to)
+from <- as.data.frame(edges$from)
 nodes <- rbind(set_names(to, "author"),set_names(from, "author"))
 nodes <- unique(nodes)
 merge(nodes, author_counts[, c("author", "n")], by="author") -> nodes
@@ -60,6 +64,6 @@ nodes$aff <- as.factor(nodes$aff)
 nodes$aff <- factor(nodes$aff, levels = c("WPATH SOC8","SEGM","SEGM-funded","ICGDR", "ACPeds","none"))
 
 # save
-write.csv(nodes, "author_nodes.csv", row.names = FALSE)
+write.csv(nodes, "nodes.csv", row.names = FALSE)
 
 
