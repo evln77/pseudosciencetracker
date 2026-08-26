@@ -2,7 +2,7 @@
 segm_table %>% count(journal) %>% arrange(desc(n)) %>% filter(journal != "NA") -> journal_counts
 
 ## load APCs and publishers
-journal_info <- read_csv("journals.csv")
+journal_info <- read_csv("journals_info.csv")
 
 # add apc and publisher info
 merge(journal_counts, journal_info[, c("journal", "apc", "parent")], by="journal") -> journal_counts
