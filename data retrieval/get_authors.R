@@ -1,33 +1,38 @@
+# load compendium
+segm_compendium <- read_csv("segm_compendium.csv")
+
 # separate authors
-segm_table %>% 
+segm_compendium %>% 
   separate(authors, c("author1","author2","author3","author4","author5","author6","author7","author8","author9","last"),"\\., ") ->
-  segm_table_authors
-author10 <- gsub("[[:punct:]]","",segm_table_authors$last)
+  segm_authors_temp
+author10 <- gsub("[[:punct:]]","",segm_authors_temp$last)
 author10 <- gsub("^ ","",author10)
 author10 <- as.data.frame(author10)
-segm_table_authors <- cbind(segm_table_authors,author10)
+segm_authors_temp <- cbind(segm_authors_temp,author10)
+
+# save
+write.csv(segm_authors_temp,"segm_authors_temp.csv", row.names = FALSE)
 
 # add authors over 10 manually
-write.csv(segm_table_authors,"segm_authors_expanded.csv", row.names = FALSE)
-authors_expanded <- read_csv("segm_authors_expanded.csv")
+authors_expanded <- read_csv("authors_expanded.csv")
 
 # get authors
-author_pubs <- data.frame(author = "deleteme", title = "deleteme", journal = "deleteme", year = 0, doi_link="deleteme",article.type="deleteme")
+compendium_by_author <- data.frame(author = "deleteme", title = "deleteme", journal = "deleteme", year = 0, doi_link="deleteme",article.type="deleteme")
 for (i in 2:120) {
   unlist(authors_expanded[,i]) %>%
   cbind(author = ., authors_expanded[,c(1,121,122,124,125)]) %>%
   drop_na(.) %>%
-  rbind(author_pubs,.) -> author_pubs
+  rbind(compendium_by_author,.) -> compendium_by_author
 }
-author_pubs <- author_pubs[-1,]
-author_pubs[1] <- gsub("[[:punct:]]","",author_pubs$author)
+compendium_by_author <- compendium_by_author[-1,]
+compendium_by_author[1] <- gsub("[[:punct:]]","",compendium_by_author$author)
 
 
 ## save 
-write.csv(author_pubs, "segm_authors.csv", row.names = FALSE)
+write.csv(compendium_by_author, "compendium_by_author.csv", row.names = FALSE)
 
 # create author counts
-author_pubs %>% count(author) %>% arrange(desc(n)) -> author_counts
+compendium_by_author %>% count(author) %>% arrange(desc(n)) -> author_counts
 author_counts %>% 
   arrange(desc(author)) %>%
   unique(.) ->
@@ -44,4 +49,4 @@ author_counts %>%
   author_counts
 
 # save
-write.csv(author_counts, "author_list.csv", row.names = FALSE)
+write.csv(author_counts, "author_counts.csv", row.names = FALSE)
