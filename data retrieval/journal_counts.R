@@ -10,6 +10,6 @@ journal_info <- read_csv("journals_info.csv")
 # add apc and publisher info
 merge(journals, journal_info[, c("journal", "apc", "parent")], by="journal") -> journal_counts
 journals$profit <- journals$n*journals$apc
-write.csv(journals, "segm_journals.csv", row.names = FALSE)
+write.csv(journals, "journals.csv", row.names = FALSE)
 
 
