@@ -1,11 +1,11 @@
-##scraping
+# scraping
 library(rvest)
 link <- "https://segm.org/studies"
 segm_studies <- read_html(link)
 summaries_css <- segm_studies %>% html_elements(".col-b")
 segm_summaries_css2 <- html_text(summaries_css)
 
-##cleaning 1 - html
+# extraction 
 library(tidyverse)
 abstract <- gsub(".*\\Journal Abstract ", "", segm_summaries_css)
 segm_table <- as.data.frame(abstract)
