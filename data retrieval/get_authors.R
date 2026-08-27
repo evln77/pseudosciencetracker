@@ -1,3 +1,6 @@
+# load packages
+library(tidyverse)
+
 # load compendium
 segm_compendium <- read_csv("segm_compendium.csv")
 
