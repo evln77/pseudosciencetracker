@@ -2,6 +2,10 @@
 library(tidyverse)
 library(gridExtra)
 
+# load data
+author_counts <- read_csv("author_counts.csv")
+compendium_by_author <- read_csv("compendium_by_author.csv")
+
 # graph for authors of all articles
 author_counts %>% 
   filter(n > 9) %>% 
@@ -23,7 +27,7 @@ author_counts %>%
 print(z)
 
 # graph of authors of editorials
-author_pubs %>% 
+compendium_by_author %>% 
   filter(article.type == "Editorial") %>%
   count(author) %>%
   arrange(desc(n)) %>%
