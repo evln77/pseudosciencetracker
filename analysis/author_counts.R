@@ -1,3 +1,7 @@
+# load packages
+library(tidyverse)
+library(gridExtra)
+
 # graph for authors of all articles
 author_counts %>% 
   filter(n > 9) %>% 
