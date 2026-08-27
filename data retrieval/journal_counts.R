@@ -11,7 +11,7 @@ segm_compendium %>% count(journal) %>% arrange(desc(n)) %>% filter(journal != "N
 journal_info <- read_csv("journals_info.csv")
 
 # add apc and publisher info
-merge(journals, journal_info[, c("journal", "apc", "parent")], by="journal") -> journal_counts
+merge(journals, journal_info[, c("journal", "apc", "parent")], by="journal") -> journals
 journals$profit <- journals$n*journals$apc
 write.csv(journals, "journals.csv", row.names = FALSE)
 
