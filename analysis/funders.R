@@ -1,5 +1,12 @@
+# load packages
+library(tidyverse)
+library(paletteer)
+
+# load data
+funded_articles <- read_csv("funded_articles.csv")
+
 # arrange data
-funding %>% 
+funded_articles %>% 
   count(type) %>%
   arrange(desc(n)) ->
   fund_counts
