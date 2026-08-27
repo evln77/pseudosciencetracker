@@ -1,9 +1,17 @@
+# load packages
+library(tidyverse)
+library(paletteer)
+library(gridExtra)
+
+# load data
+segm_compendium <- read_csv("segm_compendium.csv")
+
 # prepare data
-segm_table$article.type <- as.factor(segm_table$article.type)
-segm_table$article.type <- factor(segm_table$article.type, levels = c("News", "Blog", "Conference Abstract","Position Statement", "Editorial","Report","Synthesis","Report","Case Study","Data Analysis"))
+segm_compendium$article.type <- as.factor(segm_compendium$article.type)
+segm_compendium$article.type <- factor(segm_compendium$article.type, levels = c("News", "Blog", "Conference Abstract","Position Statement", "Editorial","Report","Synthesis","Report","Case Study","Data Analysis"))
 
 # timeline without article type
-segm_table %>%
+segm_compendium %>%
   filter(year > 2017 & year < 2026) %>%
   #filter(grepl("consent",abstract)) %>%
   drop_na(article.type) %>%
@@ -24,7 +32,7 @@ segm_table %>%
 print(a)
 
 # timeline with article type
-segm_table %>%
+segm_compendium %>%
   filter(year > 2017 & year < 2026) %>%
   #filter(grepl("consent",abstract)) %>%
   drop_na(article.type) %>%
