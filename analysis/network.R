@@ -1,8 +1,13 @@
 # load package
 library(igraph)
+library(tidyverse)
+
+# load data
+edges <- read_csv("edges.csv")
+nodes <- read_csv("nodes.csv")
 
 # generate network
-net <- graph_from_data_frame(d = author_edges, vertices = nodes, directed = FALSE)
+net <- graph_from_data_frame(d = edges, vertices = nodes, directed = FALSE)
 net <- simplify(net, remove.multiple = F, remove.loops = T) 
 pal <- c("#DD75D3FF","#E16305FF","#F2CB05FF","#719F47FF","#7E8CF3FF","gray50")
 V(net)$color <- pal[V(net)$aff]
