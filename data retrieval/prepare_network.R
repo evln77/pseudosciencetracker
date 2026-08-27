@@ -1,3 +1,6 @@
+# load packages
+library(tidyverse)
+
 # load data
 authors_expanded <- read_csv("authors_expanded.csv")
 compendium_by_author <- read_csv("compendium_by_author.csv")
