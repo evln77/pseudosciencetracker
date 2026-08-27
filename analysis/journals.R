@@ -1,5 +1,13 @@
+# load packages
+library(tidyverse)
+library(gridExtra)
+
+# load data
+journals <- read_csv("journals.csv")
+segm_compendium <- read_csv("segm_compendium.csv")
+
 # graph of journals for all articles
-journal_counts %>% filter(n > 9) %>%
+journals %>% filter(n > 9) %>%
   filter(journal!="") %>%
   mutate(journal = fct_reorder(journal, n)) %>%
   ggplot()+
@@ -18,7 +26,7 @@ journal_counts %>% filter(n > 9) %>%
 print(m)
 
 # graph of journals for editorials
-segm_table %>%
+segm_compendium %>%
   filter(article.type=="Editorial") %>%
   count(journal) %>% 
   mutate(journal = fct_reorder(journal, n)) %>% 
