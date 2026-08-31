@@ -4,4 +4,6 @@ the society for evidence-based gender medicine, an anti-trans pseudoscience orga
 
 ev
 
+analysis: [What evidence? Anti-trans scientists and academic journals fueled concern about youth transition with opinion, not data. ](url)
+
 *a note on authors: many of the authors listed are active participants in anti-trans activism, but others may be unwittingly miscited against their wishes. one way to determine the difference is to read the papers themselves (or their abstracts) and come to a conclusion yourself based on the content: are the authors arguing that some trans people don't deserve transition care? are the authors engaging with debunked concepts like rogd or agp? are there basic logical fallacies built into the experimental design or general arguments?
